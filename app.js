@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const dotenv = require('dotenv');
 const expressValidator = require('express-validator');
+const cookieParser = require('cookie-parser');
 dotenv.config();
 
 
@@ -26,9 +27,8 @@ const authRoutes = require("./routes/auth");
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(expressValidator());
+app.use(cookieParser());
 // app.use(myOwnMiddleWare);
-
-
 app.use("/", postRoutes);
 app.use("/", authRoutes);
 
