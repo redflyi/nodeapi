@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 const dotenv = require('dotenv');
+const expressValidator = require('express-validator');
 dotenv.config();
 
 
@@ -15,7 +16,7 @@ mongoose.connection.on('error', err => {
 
 
 const postRoutes = require("./routes/post");
-
+const authRoutes = require("./routes/auth");
 
 // const myOwnMiddleWare = (req, res, next) => {
 //     console.log("middleware applied!!");
@@ -24,10 +25,12 @@ const postRoutes = require("./routes/post");
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use(expressValidator());
 // app.use(myOwnMiddleWare);
 
 
 app.use("/", postRoutes);
+app.use("/", authRoutes);
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {console.log(`A Node JS API is listening on port: ${port}`)});
