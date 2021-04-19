@@ -6,6 +6,8 @@ const app = express();
 const dotenv = require('dotenv');
 const expressValidator = require('express-validator');
 const cookieParser = require('cookie-parser');
+const fs = require('fs');
+const cors = require('cors');
 dotenv.config();
 
 
@@ -19,6 +21,19 @@ mongoose.connection.on('error', err => {
 const postRoutes = require("./routes/post");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const { JSONParser } = require('formidable');
+
+app.get('/', (req, res) => {
+  fs.readFile('docs/apidocs.json', (err, data) => {
+    if(err) {
+      res.status(400).json({
+        error:err
+      });
+    }
+    const docs = JSON.parse(data);
+    res.json(docs);
+  });
+});
 
 // const myOwnMiddleWare = (req, res, next) => {
 //     console.log("middleware applied!!");
@@ -29,6 +44,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cookieParser());
+app.user(cors());
 // app.use(myOwnMiddleWare);
 app.use("/", postRoutes);
 app.use("/", authRoutes);
