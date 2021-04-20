@@ -44,7 +44,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cookieParser());
-app.user(cors());
+app.use(cors());
 // app.use(myOwnMiddleWare);
 app.use("/", postRoutes);
 app.use("/", authRoutes);
